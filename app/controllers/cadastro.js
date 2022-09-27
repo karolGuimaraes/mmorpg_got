@@ -18,5 +18,9 @@ module.exports.cadastrar = function (application, req, res) {
         return
     }
 
+    const connection = application.config.dbConnection;
+    var UsuariosDAO = new application.app.models.UsuariosDAO(connection);
+    UsuariosDAO.inserirUsuario(dados);
+
     res.send('Cadastrado');
 };
