@@ -1,10 +1,10 @@
 function UsuariosDAO(connection) {
-    this._connection = connection.getDb();
+    this._connection = connection;
 }
 
 UsuariosDAO.prototype.inserirUsuario = function(usuario){
-
-    this._connection
+    connection = this._connection.getDb();
+    connection
     .collection("usuario")
     .insertOne(usuario, function (err, result) {
         if (err) {
@@ -14,7 +14,6 @@ UsuariosDAO.prototype.inserirUsuario = function(usuario){
         }
     });
     
-    this._connection.close();
 }
 
 module.exports = function(){
