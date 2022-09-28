@@ -4,7 +4,6 @@ module.exports.main = function (application, req, res) {
 
 module.exports.autenticar = function (application, req, res) {
     const dados = req.body;
-    console.log(dados)
 
     req.assert('usuario', 'Usuário é obrigatório').notEmpty();
     req.assert('senha', 'Senha é obrigatória').notEmpty();
@@ -16,5 +15,8 @@ module.exports.autenticar = function (application, req, res) {
         return
     }
 
-    res.send('Logado');
+    const connection = application.config.dbConnection;
+    var UsuariosDAO = new application.app.models.UsuariosDAO(connection);
+    UsuariosDAO.autenticar(req, res, dados);
+
 }
