@@ -1,11 +1,18 @@
 module.exports.jogo = function (application, req, res) {
 
-    if(req.session.autorizado) {
-        res.render('jogo');
-    } else {
-        res.send('Usuário precisa fazer login')
+    if(!req.session.autorizado) {
+        res.send('Usuário precisa fazer login');
+        return;
     }
+       
+    const connection = application.config.dbConnection;
+    const JogoDAO = new application.app.models.JogoDAO(connection);
+    const usuario = req.session.usuario;
+    const casa = req.session.casa;
     
+    JogoDAO.iniciaJogo(req, res, usuario, casa);
+    
+    //res.render('jogo', {img_casa: req.session.casa});
 }
 
 module.exports.sair = function (application, req, res) {
